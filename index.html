@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f8f1e8">
+<meta name="description" content="보살 상담소 — 마음을 쉬어가고 이야기를 나누는 공간, 다온">
+<title>보살 상담소 | 마음 · 쉼 · 이야기</title>
+<style>
+:root {
+  --cream:#fbf6ee; --cream-deep:#f2e7d9; --wine:#722d43;
+  --wine-dark:#542033; --rose:#ead1d1; --ink:#33272a;
+  --muted:#76676a; --white:#fffdf9; --line:#e8d9d0;
+  --shadow:0 16px 42px rgba(84,32,51,.09); --radius:24px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--cream);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",
+  "Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.7
+}
+a{color:inherit}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.wrap{width:min(1080px,calc(100% - 36px));margin:0 auto}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:20px 0;gap:18px}
+.brand{color:var(--wine);font-weight:850;letter-spacing:-.04em;font-size:1.13rem;text-decoration:none}
+.nav{display:flex;gap:20px;flex-wrap:wrap;font-size:.92rem;color:var(--muted)}
+.nav a{text-decoration:none}
+.nav a:hover{color:var(--wine)}
+.hero{
+  position:relative;overflow:hidden;border-radius:34px;
+  padding:clamp(40px,8vw,88px) clamp(24px,7vw,76px);
+  background:linear-gradient(135deg,#f1dfd8 0%,#f8eee3 54%,#ead7d6 100%);
+  box-shadow:var(--shadow)
+}
+.hero:after{
+  content:"☁";position:absolute;right:4%;top:-60px;
+  font-size:clamp(150px,26vw,310px);color:rgba(114,45,67,.08);
+  line-height:1;pointer-events:none
+}
+.eyebrow{color:var(--wine);font-size:.82rem;font-weight:800;letter-spacing:.12em}
+h1{margin:12px 0 14px;color:var(--wine-dark);font-size:clamp(2.45rem,7vw,5rem);letter-spacing:-.065em;line-height:1.13}
+.hero p{max-width:590px;color:#59474b;font-size:clamp(1rem,2.2vw,1.15rem);margin:0 0 28px}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;position:relative;z-index:1}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  border:1px solid transparent;border-radius:999px;padding:13px 21px;
+  font-weight:750;text-decoration:none;transition:transform .15s ease,background .15s ease
+}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{background:var(--wine);color:white}
+.btn-primary:hover{background:var(--wine-dark)}
+.btn-secondary{color:var(--wine);border-color:#cbaeb3;background:rgba(255,253,249,.6)}
+section{padding:74px 0 0;scroll-margin-top:20px}
+.section-head{margin-bottom:24px}
+.section-head h2{color:var(--wine-dark);font-size:clamp(1.65rem,4vw,2.25rem);letter-spacing:-.045em;margin:5px 0 8px}
+.section-head p{color:var(--muted);margin:0}
+.topics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.topic{
+  text-align:left;display:flex;align-items:center;gap:13px;
+  padding:18px;border:1px solid var(--line);border-radius:18px;
+  background:var(--white);color:var(--ink);
+  box-shadow:0 4px 14px rgba(84,32,51,.025);min-height:78px;
+  transition:border-color .15s,transform .15s,box-shadow .15s
+}
+.topic:hover,.topic[aria-pressed="true"]{
+  border-color:#b77c8c;transform:translateY(-2px);
+  box-shadow:0 10px 22px rgba(84,32,51,.08)
+}
+.topic .emoji{font-size:1.5rem}
+.topic-name{font-weight:780;display:block}
+.topic-hint{display:block;color:var(--muted);font-size:.82rem;font-weight:450;margin-top:1px}
+.answer-panel{
+  margin-top:22px;padding:clamp(22px,5vw,38px);
+  border-radius:var(--radius);background:var(--wine-dark);
+  color:#fff8f0;box-shadow:var(--shadow)
+}
+.answer-label{font-size:.84rem;color:#e8cbd1;font-weight:750}
+.answer-panel h3{margin:7px 0 12px;font-size:1.5rem}
+.answer-text{font-size:1.06rem;line-height:1.95;white-space:pre-line;margin:0 0 22px}
+.answer-panel .btn-secondary{background:transparent;color:#fff8f0;border-color:#a97c89}
+.empty-answer{color:#f1dfe3;margin:0}
+.about-card,.form-card{
+  padding:clamp(23px,5vw,42px);border:1px solid var(--line);
+  border-radius:var(--radius);background:var(--white);box-shadow:var(--shadow)
+}
+.about-card p{color:#5d4d50;margin:0 0 16px}
+.about-card p:last-child{margin-bottom:0}
+.about-tags{display:flex;flex-wrap:wrap;gap:9px;margin-top:23px}
+.tag{padding:8px 13px;border-radius:999px;background:#f5e8e4;color:var(--wine);font-size:.88rem;font-weight:750}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.field{display:flex;flex-direction:column;gap:7px}
+.field.full{grid-column:1/-1}
+label,.field-title{font-weight:750;font-size:.95rem}
+.required{color:var(--wine)}
+input[type="text"],input[type="tel"],input[type="number"],select{
+  width:100%;min-height:48px;border:1px solid #d9c8c4;border-radius:12px;
+  background:#fffefa;padding:11px 13px;color:var(--ink)
+}
+input:focus,select:focus,button:focus-visible,a:focus-visible{outline:3px solid #c98d9d;outline-offset:3px}
+.privacy-box{background:#f8f0e9;border-radius:15px;padding:17px;font-size:.9rem;color:#655458}
+.privacy-box h3{margin:0 0 7px;font-size:1rem;color:var(--wine-dark)}
+.privacy-box ul{margin:7px 0 0;padding-left:20px}
+.consent{display:flex;gap:10px;align-items:flex-start;font-weight:650}
+.consent input{width:18px;height:18px;margin-top:5px;accent-color:var(--wine);flex:0 0 auto}
+.notice{font-size:.84rem;color:var(--muted);margin:14px 0 0}
+.status{display:none;margin-top:15px;padding:12px 14px;border-radius:12px;background:#f5e8e4;color:var(--wine-dark)}
+.status.show{display:block}
+.admin-note{margin-top:20px;padding:16px 18px;border:1px dashed #c9a8ae;border-radius:15px;color:var(--muted);font-size:.88rem}
+footer{margin-top:76px;padding:27px 0 35px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+.footer-inner{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+@media(min-width:760px){.topics{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:560px){
+  .wrap{width:min(100% - 24px,1080px)}
+  .topbar{align-items:flex-start;flex-direction:column}
+  .nav{gap:13px;font-size:.86rem}
+  .hero{border-radius:25px}
+  .topics,.form-grid{grid-template-columns:1fr}
+  .field.full{grid-column:auto}
+  section{padding-top:56px}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*:before,*:after{transition:none!important}
+}
+</style>
+</head>
+<body>
+<header class="wrap topbar">
+  <a class="brand" href="#" aria-label="보살 상담소 처음으로">☁️ 보살 상담소</a>
+  <nav class="nav" aria-label="주요 메뉴">
+    <a href="#counseling">마음 이야기</a>
+    <a href="#daon">다온 소개</a>
+    <a href="#join">함께하기</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="eyebrow">마음이 쉬어가는 작은 공간</div>
+    <h1 id="hero-title">☁️ 보살 상담소</h1>
+    <p><strong>마음 · 쉼 · 이야기</strong><br>
+    누구에게도 쉽게 꺼내지 못했던 이야기, 혼자 마음에 담아두었던 고민을 편하게 돌아보세요. 지금 마음과 가까운 주제를 골라 따뜻한 이야기를 만나보세요.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#counseling">내 마음 이야기하기 →</a>
+      <a class="btn btn-secondary" href="#daon">다온 알아보기</a>
+    </div>
+  </section>
+
+  <section id="counseling" aria-labelledby="counseling-title">
+    <div class="section-head">
+      <div class="eyebrow">YOUR FEELINGS MATTER</div>
+      <h2 id="counseling-title">어떤 이야기를 나누고 싶으세요?</h2>
+      <p>지금 내 마음과 가까운 주제를 선택해 보세요. 누르기만 하면 그에 맞는 이야기가 나와요.</p>
+    </div>
+
+    <div class="topics" id="topicList" aria-label="상담 주제">
+      <button class="topic" type="button" data-topic="love" aria-pressed="false"><span class="emoji">💗</span><span><span class="topic-name">연애와 인연</span><span class="topic-hint">마음과 관계에 대해</span></span></button>
+      <button class="topic" type="button" data-topic="relationships" aria-pressed="false"><span class="emoji">🌿</span><span><span class="topic-name">인간관계</span><span class="topic-hint">사람 사이가 어려울 때</span></span></button>
+      <button class="topic" type="button" data-topic="feelings" aria-pressed="false"><span class="emoji">🌙</span><span><span class="topic-name">마음과 감정</span><span class="topic-hint">내 마음을 살펴보기</span></span></button>
+      <button class="topic" type="button" data-topic="family" aria-pressed="false"><span class="emoji">🏡</span><span><span class="topic-name">가족과 친구</span><span class="topic-hint">가까운 사이의 고민</span></span></button>
+      <button class="topic" type="button" data-topic="future" aria-pressed="false"><span class="emoji">🍀</span><span><span class="topic-name">진로와 미래</span><span class="topic-hint">앞날이 막막할 때</span></span></button>
+      <button class="topic" type="button" data-topic="choices" aria-pressed="false"><span class="emoji">🕊</span><span><span class="topic-name">선택과 고민</span><span class="topic-hint">결정을 앞두고 있을 때</span></span></button>
+      <button class="topic" type="button" data-topic="self" aria-pressed="false"><span class="emoji">🌸</span><span><span class="topic-name">자존감과 나</span><span class="topic-hint">나를 조금 더 아끼기</span></span></button>
+      <button class="topic" type="button" data-topic="lonely" aria-pressed="false"><span class="emoji">☁️</span><span><span class="topic-name">외로움과 위로</span><span class="topic-hint">위로가 필요한 날</span></span></button>
+      <button class="topic" type="button" data-topic="worry" aria-pressed="false"><span class="emoji">🌧</span><span><span class="topic-name">불안과 걱정</span><span class="topic-hint">생각이 많아지는 날</span></span></button>
+      <button class="topic" type="button" data-topic="start" aria-pressed="false"><span class="emoji">🌅</span><span><span class="topic-name">새로운 시작</span><span class="topic-hint">다시 한 걸음 내딛기</span></span></button>
+    </div>
+
+    <div class="answer-panel" id="answerPanel" aria-live="polite" aria-atomic="true">
+      <div class="answer-label">A LITTLE NOTE FOR YOU</div>
+      <h3 id="answerTitle">오늘의 마음에게</h3>
+      <p class="empty-answer" id="answerText">위의 주제 중 하나를 골라 주세요. 지금 마음에 어울리는 이야기를 건넬게요. 🌷</p>
+      <button class="btn btn-secondary" id="anotherAnswer" type="button" hidden>다른 이야기 보기 ↻</button>
+    </div>
+    <p class="notice">이곳의 글은 마음을 돌아보는 데 도움이 되는 일반적인 이야기예요. 전문적인 상담이나 의료적 도움을 대신하지는 않아요.</p>
+  </section>
+
+  <section id="daon" aria-labelledby="daon-title">
+    <div class="section-head">
+      <div class="eyebrow">GOOD THINGS COME TO YOU</div>
+      <h2 id="daon-title">☁️ 다온, 좋은 일이 다 온다</h2>
+      <p>작은 만남과 이야기가 또 다른 좋은 일로 이어지길 바라요.</p>
+    </div>
+    <div class="about-card">
+      <p>‘다온’은 좋은 일이 다 온다는 뜻으로, 일상 속 작은 행복과 좋은 인연, 새로운 경험이 찾아오기를 바라는 마음을 담고 있어요.</p>
+      <p>다온에서는 이런 마음을 다양한 방식으로 나누고 있어요. 팝업을 통해 다온을 직접 만나보고, 세미나에서 새로운 이야기와 생각을 접하고, 인터뷰를 통해 서로의 경험과 마음을 나눌 수 있어요.</p>
+      <p>각기 다른 만남이지만, 그 안에서 새로운 관심사를 발견하거나 생각지 못했던 공감과 인연을 만날 수도 있어요.</p>
+      <p>처음부터 특별한 목적이 있거나 무언가를 잘 알아야 하는 건 아니에요. 가볍게 둘러보다가 관심이 생기면 조금 더 알아보고, 마음이 가는 만큼 함께해도 괜찮아요.</p>
+      <p>다온에서 만난 작은 이야기가 새로운 경험이 되고, 그 경험이 또 다른 좋은 일로 이어지길 바라요. 🌸</p>
+      <div class="about-tags" aria-label="다온 활동">
+        <span class="tag">🌷 팝업</span>
+        <span class="tag">💬 세미나</span>
+        <span class="tag">🎙 인터뷰</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="join" aria-labelledby="join-title">
+    <div class="section-head">
+      <div class="eyebrow">LET'S CONNECT</div>
+      <h2 id="join-title">🌸 다온과 함께하기</h2>
+      <p>다온에 관심을 가져주셔서 감사합니다. 아래 정보를 남겨주시면 안내를 위해 연락드릴 수 있어요.</p>
+    </div>
+
+    <div class="form-card">
+      <form id="joinForm">
+        <div class="form-grid">
+          <div class="field">
+            <label for="name">이름 <span class="required">*</span></label>
+            <input id="name" name="name" type="text" autocomplete="name" maxlength="60" placeholder="이름을 입력해 주세요" required>
+          </div>
+          <div class="field">
+            <label for="age">나이 <span class="required">*</span></label>
+            <input id="age" name="age" type="number" min="1" max="120" inputmode="numeric" placeholder="나이를 입력해 주세요" required>
+          </div>
+          <div class="field">
+            <label for="gender">성별 <span class="required">*</span></label>
+            <select id="gender" name="gender" required>
+              <option value="">선택해 주세요</option>
+              <option value="남성">남성</option>
+              <option value="여성">여성</option>
+              <option value="기타">기타</option>
+              <option value="응답하고 싶지 않음">응답하고 싶지 않음</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="phone">연락처 <span class="required">*</span></label>
+            <input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="25" placeholder="연락받으실 전화번호" required>
+          </div>
+
+          <div class="field full">
+            <div class="privacy-box">
+              <h3>개인정보 수집 및 이용 안내</h3>
+              <p>아래 내용은 실제 운영 정보를 확정한 뒤 사용해야 합니다. 정확한 보관 기간과 개인정보 문의처가 정해지기 전에는 이 양식을 통해 실제 개인정보를 수집하지 마세요.</p>
+              <ul>
+                <li><strong>수집 항목:</strong> 이름, 나이, 성별, 연락처</li>
+                <li><strong>이용 목적:</strong> 다온 관련 안내 및 연락</li>
+                <li><strong>보관 기간:</strong> 운영자가 실제 보관 기간을 확정해 여기에 기재해야 합니다.</li>
+                <li><strong>삭제 및 문의:</strong> 운영자의 실제 개인정보 문의처와 삭제 요청 방법을 기재해야 합니다.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="field full">
+            <label class="consent" for="consent">
+              <input id="consent" name="consent" type="checkbox" required>
+              <span>개인정보 수집 및 이용에 동의합니다. <span class="required">*</span></span>
+            </label>
+          </div>
+
+          <div class="field full">
+            <button class="btn btn-primary" type="submit">정보 제출하기</button>
+            <p class="notice">현재 GitHub Pages 데모 버전에서는 제출 정보가 전송되거나 저장되지 않습니다. 서버 저장 기능을 연결하기 전에는 실제 개인정보를 입력하지 마세요.</p>
+            <div class="status" id="formStatus" role="status"></div>
+          </div>
+        </div>
+      </form>
+
+      <div class="admin-note">
+        <strong>🔒 관리자 기능 안내</strong><br>
+        관리자 전용 페이지와 개인정보 조회 기능은 이 정적 HTML 파일에 포함되어 있지 않습니다. 실제 운영 시 서버 로그인 인증과 데이터베이스 권한 설정을 별도로 연결해야 합니다.
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footer-inner">
+    <span>☁️ 보살 상담소 · 다온</span>
+    <span>마음이 쉬어가는 작은 공간 🌷</span>
+  </div>
+</footer>
+
+<script>
+const topicData = {
+  love: {
+    title:"연애와 인연",
+    answers:[
+      "누군가를 좋아하는 마음은 설레기도 하지만, 때로는 나를 불안하게 만들기도 해요. 상대의 마음을 모두 알아내려고 애쓰기보다 지금 내 마음이 어떤지 먼저 살펴봐도 괜찮아요.",
+      "좋은 인연은 늘 완벽한 모습으로 찾아오는 건 아니에요. 서로의 마음을 존중하고 편안하게 이야기할 수 있는 관계인지 천천히 알아가도 늦지 않아요.",
+      "마음이 크다고 해서 꼭 서두를 필요는 없어요. 나를 잃지 않으면서 상대를 알아가는 속도도 중요하니까요."
+    ]
+  },
+  relationships: {
+    title:"인간관계",
+    answers:[
+      "모든 사람과 잘 지내야 하는 건 아니에요. 서로 다를 수 있다는 걸 인정하고, 나를 계속 힘들게 하는 관계에서는 적당한 거리를 두어도 괜찮아요.",
+      "상대의 기분을 살피느라 내 마음을 자꾸 뒤로 미뤘다면 오늘은 내 마음도 한 번 챙겨주세요. 배려는 나를 지우는 일이 아니에요.",
+      "오해가 생겼다면 차분하게 이야기해 볼 수 있어요. 다만 내가 할 수 있는 만큼 진심을 전한 뒤에는 상대의 반응까지 전부 책임지지 않아도 돼요."
+    ]
+  },
+  feelings: {
+    title:"마음과 감정",
+    answers:[
+      "지금 어떤 감정이 드는지 정확히 설명하지 못해도 괜찮아요. 마음이 복잡한 날에는 '나도 지금 힘들구나' 하고 알아주는 것부터 시작해도 충분해요.",
+      "감정을 느끼는 데 정답은 없어요. 괜찮은 척하지 않아도 되고, 당장 기분을 바꾸려고 애쓰지 않아도 돼요. 잠시 그대로 있어도 괜찮아요.",
+      "오늘 마음이 무거웠다면 이유를 하나씩 찾아보세요. 해결책을 바로 찾지 못해도 내 마음을 알아가는 것 자체가 작은 시작이에요."
+    ]
+  },
+  family: {
+    title:"가족과 친구",
+    answers:[
+      "가까운 사이라서 오히려 말하기 어려운 마음도 있어요. 꼭 한 번에 다 설명하지 않아도 돼요. 내가 전할 수 있는 말부터 천천히 꺼내보세요.",
+      "가족이나 친구와 생각이 다르다고 해서 서로를 아끼는 마음까지 없는 건 아니에요. 다름을 인정하면서도 지켜야 할 내 마음의 선은 분명히 해도 괜찮아요.",
+      "늘 내가 먼저 이해하고 맞춰왔다면 잠시 쉬어가도 괜찮아요. 가까운 관계일수록 서로의 마음과 노력이 함께 존중받아야 해요."
+    ]
+  },
+  future: {
+    title:"진로와 미래",
+    answers:[
+      "앞날이 선명하게 보이지 않는다고 해서 뒤처진 건 아니에요. 지금 당장 인생 전체의 답을 찾기보다 오늘 알아볼 수 있는 것 하나부터 시작해 봐요.",
+      "다른 사람의 속도와 내 속도는 다를 수밖에 없어요. 비교 때문에 마음이 급해진다면, 내가 원하는 방향이 무엇인지 다시 돌아보는 시간을 가져도 좋아요.",
+      "확신이 생긴 뒤에만 시작할 수 있는 건 아니에요. 작게 경험해 보면서 나에게 맞는 길인지 알아가도 괜찮아요."
+    ]
+  },
+  choices: {
+    title:"선택과 고민",
+    answers:[
+      "어떤 선택이든 고민이 남을 수 있어요. 완벽하게 후회 없는 답을 찾기보다 지금의 나에게 중요한 가치가 무엇인지 생각해 보면 결정이 조금 선명해질 수 있어요.",
+      "결정을 미루고 있다면 무엇이 가장 걱정되는지 적어보세요. 막연한 걱정이 구체적인 질문으로 바뀌면 하나씩 살펴볼 수 있어요.",
+      "지금 선택하지 않는 것도 때로는 선택이에요. 다만 시간이 필요한 건지, 두려워서 멈춰 있는 건지 내 마음에 솔직하게 물어봐도 좋아요."
+    ]
+  },
+  self: {
+    title:"자존감과 나",
+    answers:[
+      "내 가치는 오늘 얼마나 잘했는지에 따라 정해지지 않아요. 잘한 날도, 실수한 날도 모두 나의 일부예요.",
+      "다른 사람에게는 다정하면서 나에게만 엄격했다면, 오늘은 나에게도 같은 말을 건네보세요. '이 정도면 애썼어'라는 말도 충분히 필요해요.",
+      "나를 좋아하는 일이 아직 어렵다면 나를 함부로 대하지 않는 것부터 시작해도 괜찮아요. 작은 선택들이 조금씩 나를 지켜줄 거예요."
+    ]
+  },
+  lonely: {
+    title:"외로움과 위로",
+    answers:[
+      "사람들 사이에 있어도 외로울 수 있어요. 그런 마음이 든다고 해서 이상한 건 아니에요. 오늘은 누군가에게 짧게 안부를 건네거나, 편안한 공간에서 나를 돌봐줘도 좋아요.",
+      "누군가 내 마음을 알아줬으면 하는 날이 있죠. 지금 당장 모든 걸 설명하지 않아도 괜찮아요. 말할 준비가 될 때까지 천천히 해도 돼요.",
+      "외로운 순간이 지금의 전부는 아니에요. 따뜻한 차 한 잔, 좋아하는 노래, 믿을 만한 사람에게 건네는 한마디처럼 작은 연결부터 시작해 봐요."
+    ]
+  },
+  worry: {
+    title:"불안과 걱정",
+    answers:[
+      "아직 일어나지 않은 일까지 한꺼번에 감당하려고 하면 마음이 지칠 수 있어요. 지금 실제로 일어난 일과 걱정하고 있는 일을 나눠서 적어보세요.",
+      "불안한 마음을 억지로 없애려고 하지 않아도 돼요. 천천히 숨을 쉬고, 발이 바닥에 닿는 느낌처럼 지금 이 순간에 집중해 봐요.",
+      "모든 걸 미리 대비할 수는 없어요. 지금 내가 할 수 있는 한 가지를 정하고, 나머지는 잠시 내려놓아도 괜찮아요."
+    ]
+  },
+  start: {
+    title:"새로운 시작",
+    answers:[
+      "새로운 시작은 거창할 필요가 없어요. 오늘 할 수 있는 작은 한 걸음이면 충분해요. 작아 보여도 그 걸음은 분명히 앞으로 나아가는 일이에요.",
+      "한 번 멈췄다고 해서 처음부터 다시 해야 하는 건 아니에요. 지금까지 배운 것들을 가지고 다시 시작하는 거예요.",
+      "시작이 두렵다면 완벽하게 해내겠다는 마음보다 일단 경험해 보겠다는 마음으로 출발해 봐요. 해보면서 방향을 바꿔도 괜찮아요."
+    ]
+  }
+};
+
+const topicButtons = [...document.querySelectorAll("[data-topic]")];
+const answerTitle = document.getElementById("answerTitle");
+const answerText = document.getElementById("answerText");
+const anotherAnswer = document.getElementById("anotherAnswer");
+let currentTopic = null;
+let previousAnswerIndex = -1;
+
+function chooseAnswer(topicKey) {
+  const topic = topicData[topicKey];
+  if (!topic) return;
+
+  let index = Math.floor(Math.random() * topic.answers.length);
+
+  if (topic.answers.length > 1 && index === previousAnswerIndex) {
+    index = (index + 1 + Math.floor(Math.random() * (topic.answers.length - 1))) % topic.answers.length;
+  }
+
+  previousAnswerIndex = index;
+  currentTopic = topicKey;
+
+  topicButtons.forEach(button => {
+    button.setAttribute("aria-pressed", String(button.dataset.topic === topicKey));
+  });
+
+  answerTitle.textContent = topic.title;
+  answerText.textContent = topic.answers[index];
+  answerText.className = "answer-text";
+  anotherAnswer.hidden = false;
+}
+
+topicButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    previousAnswerIndex = -1;
+    chooseAnswer(button.dataset.topic);
+    document.getElementById("answerPanel").scrollIntoView({
+      behavior:"smooth",
+      block:"nearest"
+    });
+  });
+});
+
+anotherAnswer.addEventListener("click", () => {
+  if (currentTopic) chooseAnswer(currentTopic);
+});
+
+// 서버 연결 전에는 개인정보를 저장하거나 전송하지 않습니다.
+document.getElementById("joinForm").addEventListener("submit", event => {
+  event.preventDefault();
+
+  const status = document.getElementById("formStatus");
+  status.textContent = "아직 서버 저장 기능이 연결되지 않았어요. 개인정보가 전송되거나 저장되지 않았습니다. 실제 정보를 제출받으려면 안전한 서버와 관리자 인증을 먼저 연결해야 합니다.";
+  status.classList.add("show");
+  status.scrollIntoView({behavior:"smooth",block:"nearest"});
+});
+</script>
+</body>
+</html>
